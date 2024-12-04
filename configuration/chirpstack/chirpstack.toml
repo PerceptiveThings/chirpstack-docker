@@ -19,7 +19,7 @@
   #  * require - Always SSL (skip verification)
   #  * verify-ca - Always SSL (verify that the certificate presented by the server was signed by a trusted CA)
   #  * verify-full - Always SSL (verify that the certification presented by the server was signed by a trusted CA and the server host name matches the one in the certificate)
-  dsn="postgres://chirpstack:chirpstack@$POSTGRESQL_HOST/chirpstack?sslmode=disable"
+  dsn="$POSTGRESQL_DSN"
 
   # Max open connections.
   #
@@ -65,22 +65,27 @@
   # Multiple regions can be enabled simultaneously. Each region must match
   # the 'name' parameter of the region configuration in '[[regions]]'.
   enabled_regions=[
-    "as923",
-    "as923_2",
-    "as923_3",
-    "as923_4",
-    "au915_0",
-    "cn470_10",
-    "cn779",
-    "eu433",
-    "eu868",
-    "in865",
-    "ism2400",
-    "kr920",
-    "ru864",
     "us915_0",
-    "us915_1",
   ]
+
+
+# Monitoring related configuration.
+[monitoring]
+
+  # interface:port to bind the monitoring endpoint to (optional).
+  #
+  # /health  - Returns 200 in case the healthchecks have passed.
+  # /metrics - Returns metrics which can be scraped by Prometheus.
+  #
+  # If not set, this endpoint will be disabled.
+  bind="0.0.0.0:8081"
+
+  # Per gateway frame-log max history.
+  #
+  # Equal to the gateway_frame_log_max_history, but for each gateway a new Redis Stream
+  # is created.
+  # Setting this value to 0 disables this feature.
+  per_gateway_frame_log_max_history=100
 
 
 # API interface configuration.

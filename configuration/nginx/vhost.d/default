@@ -1,0 +1,18 @@
+## Start of configuration add by letsencrypt container
+location ^~ /.well-known/acme-challenge/ {
+    auth_basic off;
+    auth_request off;
+    allow all;
+    root /usr/share/nginx/html;
+    try_files $uri =404;
+    break;
+}
+## End of configuration add by letsencrypt container
+
+# Necessary pre-4.0.2 to avoid timeout issues
+# https://forum.chirpstack.io/t/processing-gateway-error-time-out-for-waiting-for-connection/14733/14
+#location /api.InternalService {
+#  grpc_pass grpc://chirpstack:8080;
+#  grpc_read_timeout 86400s;
+#  grpc_send_timeout 86400s;
+#}
