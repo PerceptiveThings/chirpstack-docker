@@ -9,10 +9,12 @@ location ^~ /.well-known/acme-challenge/ {
 }
 ## End of configuration add by letsencrypt container
 
-# Necessary pre-4.0.2 to avoid timeout issues
-# https://forum.chirpstack.io/t/processing-gateway-error-time-out-for-waiting-for-connection/14733/14
-#location /api.InternalService {
-#  grpc_pass grpc://chirpstack:8080;
-#  grpc_read_timeout 86400s;
-#  grpc_send_timeout 86400s;
-#}
+# Proxy GRPC requests but leave requests like /api.json intact
+location ~ ^/api\..*Service/.* {
+  grpc_pass grpc://chirpstack:8080;
+
+  # To avoid timeout issues (supposedly only pre-4.0.2 but appears to still be necessary as of 4.10.2):
+  # https://forum.chirpstack.io/t/processing-gateway-error-time-out-for-waiting-for-connection/14733/14
+  grpc_read_timeout 86400s;
+  grpc_send_timeout 86400s;
+}
