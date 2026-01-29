@@ -59,11 +59,11 @@ services:
       - BACKEND__SEMTECH_UDP__STATS_INTERVAL=600
     depends_on:
       - mosquitto
-  
+
   chirpstack-gateway-bridge-basicstation:
     image: chirpstack/chirpstack-gateway-bridge:4
     restart: unless-stopped
-    command: -c /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge-basicstation-eu868.toml
+    command: -c /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge-basicstation.toml
     ports:
       - 3001:3001
     volumes:
@@ -107,7 +107,7 @@ services:
     restart: unless-stopped
     ports:
       - 1883:1883
-    volumes: 
+    volumes:
       - ./configuration/mosquitto/config/:/mosquitto/config/
 
 volumes:
